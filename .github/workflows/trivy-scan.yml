@@ -32,6 +32,8 @@ jobs:
 
       # Step 3: Run Trivy Scan on the Built Image
       - name: Run Trivy Scan on the Image
+        env:
+            TRIVY_DISABLE_VEX_NOTICE: "true"
         run: |
           trivy image --ignore-unfixed --severity HIGH,CRITICAL openmetadata/server:${{ inputs.docker_release_tag }} > trivy-results.txt
 
