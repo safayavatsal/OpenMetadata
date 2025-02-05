@@ -54,12 +54,12 @@ jobs:
           is_ingestion-base-slim: true
 
 
-      - name: Build Docker Image
+      - name: Build Docker Image For Ingestion Slim
         run: |
           docker build -t openmetadata-ingestion-base-slim:trivy -f ingestion/operators/docker/Dockerfile.ci .
 
 
-      - name: Run Trivy Image Scan
+      - name: Run Trivy Image Scan For Ingestion Slim
         id: trivy_scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -71,16 +71,16 @@ jobs:
         env:
           TRIVY_DISABLE_VEX_NOTICE: "true"
 
-      - name: Format Trivy Output
+      - name: Format Trivy Output For Ingestion Slim
         run: |
-          echo "## 🚨 Trivy Security Scan Results 🚨" > trivy-results.md
+          echo "## 🚨 Trivy Security Scan Results 🚨" > trivy-results-ingestion-base-slim.md
           echo "" >> trivy-results-ingestion-base-slim.md
           echo '```' >> trivy-results-ingestion-base-slim.md
           # Correct output file path handling here
           cat trivy-results-ingestion-base-slim.txt >> trivy-results-ingestion-base-slim.md
           echo '```' >> trivy-results-ingestion-base-slim.md
     
-      - name: Comment Trivy Scan Results on PR
+      - name: Comment Trivy Scan Results For Ingestion Slim on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: trivy-results-ingestion-base-slim.md
