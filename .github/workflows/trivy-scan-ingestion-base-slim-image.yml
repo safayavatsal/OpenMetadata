@@ -72,7 +72,7 @@ jobs:
           scan-ref: .
           format: 'template'
           template: "@.github/trivy/templates/github.tpl"
-          output: "trivy-results-ingestion-base-slim.txt"
+          output: "trivy-results-ingestion-base-slim.md"
         env:
           TRIVY_DISABLE_VEX_NOTICE: "true"
 
