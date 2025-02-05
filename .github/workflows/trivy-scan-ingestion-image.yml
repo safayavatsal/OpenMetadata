@@ -54,12 +54,12 @@ jobs:
           is_ingestion: true
 
 
-      - name: Build Docker Image
+      - name: Build Docker Image For Ingestion
         run: |
           docker build -t openmetadata-ingestion:trivy -f ingestion/Dockerfile.ci .
 
 
-      - name: Run Trivy Image Scan
+      - name: Run Trivy Image Scan For Ingestion
         id: trivy_scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -71,16 +71,16 @@ jobs:
         env:
           TRIVY_DISABLE_VEX_NOTICE: "true"
 
-      - name: Format Trivy Output
+      - name: Format Trivy Output For Ingestion
         run: |
-          echo "## 🚨 Trivy Security Scan Results 🚨" > trivy-results.md
+          echo "## 🚨 Trivy Security Scan Results 🚨" > trivy-results-ingestion.md
           echo "" >> trivy-results-ingestion.md
           echo '```' >> trivy-results-ingestion.md
           # Correct output file path handling here
           cat trivy-results-ingestion.txt >> trivy-results-ingestion.md
           echo '```' >> trivy-results-ingestion.md
     
-      - name: Comment Trivy Scan Results on PR
+      - name: Comment Trivy Scan Results For Ingestion on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: trivy-results-ingestion.md
