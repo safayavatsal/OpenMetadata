@@ -14,6 +14,7 @@ on:
     #       - "yarn.lock"
     #       - "Makefile"
     #       - "bootstrap/**"
+    
 # concurrency: 
 #   group: trivy-ingestion-scan-${{ github.head_ref || github.run_id }}
 #   cancel-in-progress: true
@@ -65,20 +66,24 @@ jobs:
         with:
           scan-type: "image"
           image-ref: openmetadata-ingestion:trivy
+          hide-progress: false
           ignore-unfixed: true
           severity: "HIGH,CRITICAL"
-          output: "trivy-results-ingestion.txt"
+          scan-ref: .
+          format: 'template'
+          template: "@.github/trivy/templates/github.tpl"
+          output: "trivy-results-ingestion.md"
         env:
           TRIVY_DISABLE_VEX_NOTICE: "true"
 
-      - name: Format Trivy Output
-        run: |
-          echo "## 🚨 Trivy Security Scan Results 🚨" > trivy-results-ingestion.md
-          echo "" >> trivy-results-ingestion.md
-          echo '```' >> trivy-results-ingestion.md
-          # Correct output file path handling here
-          cat trivy-results-ingestion.txt >> trivy-results-ingestion.md
-          echo '```' >> trivy-results-ingestion.md
+      # - name: Format Trivy Output
+      #   run: |
+      #     echo "## 🚨 Trivy Security Scan Results 🚨" > trivy-results-ingestion.md
+      #     echo "" >> trivy-results-ingestion.md
+      #     echo '```' >> trivy-results-ingestion.md
+      #     # Correct output file path handling here
+      #     cat trivy-results-ingestion.txt >> trivy-results-ingestion.md
+      #     echo '```' >> trivy-results-ingestion.md
     
       - name: Comment Trivy Scan Results on PR
         uses: marocchino/sticky-pull-request-comment@v2
