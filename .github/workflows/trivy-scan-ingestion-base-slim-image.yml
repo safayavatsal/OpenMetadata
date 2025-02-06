@@ -52,7 +52,7 @@ jobs:
         with:
           image: openmetadata-ingestion-base-slim
           tag: trivy
-          is_ingestion-base-slim: true
+          is_ingestion: true
 
 
       - name: Build Docker Image
